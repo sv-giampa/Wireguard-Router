@@ -2,7 +2,7 @@
 This is a simple script for installing and configuring a [Wireguard](https://www.wireguard.com/) entrypoint with a [DuckDNS](https://www.duckdns.org/) IP address updater, based on just four template configuration files.
 This script allows you to create an easy-to-manage router that redirects traffic incoming from the internet to your Wireguard peers.
 
-## The most frequent Use case
+## The most frequent use case
 You want to rent a VPS with a public IP (static or dynamic, it doesn't matter at all) in order to gain access to your LAN, from anywhere on the internet.
 
 With this simple script you can rapidly configure your VPN (Virtual Private Network) to attach your hosts to your VPS and make them reachable through your DNS name, registered on [DuckDNS](https://www.duckdns.org/). What you need is to upload the 'wireguard-router' directory to your VPS, modify the four configuration template files based on your needs, and run the 'router.sh' script with no arguments. At the end, you can backup your four configuration files in order to be able to re-configure your router when a VPS failure with loss of data occurs, or just when you want to migrate your VPS provider.
