@@ -50,7 +50,7 @@ function setup_wireguard {
 
 	# setup port forwarding configuration
 	echo "setting up port forwarding"
-	echo "PreUp = sysctl -w net.ipv4.ip_forward=1; sysctl -p; sysctl --system" >> $generated_wgconf
+	echo "PreUp = sysctl -w net.ipv4.ip_forward=1" >> $generated_wgconf
 	echo >> $generated_wgconf
 
 	cat ./config/portforward.conf \
