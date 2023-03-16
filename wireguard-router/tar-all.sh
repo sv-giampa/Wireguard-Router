@@ -1,1 +1,0 @@
-tar -cf wireguard-router.tar config router.sh tar-all.sh

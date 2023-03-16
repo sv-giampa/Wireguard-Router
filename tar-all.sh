@@ -1,0 +1,1 @@
+tar -cf wireguard-router.tar README.md LICENSE config router.sh tar-all.sh

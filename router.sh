@@ -1,3 +1,7 @@
+if ! [ $(id -u) = 0 ]; then
+   echo "The script needs to be run as root."
+   exit 1
+fi
 
 wgif="wg0"
 duckdns_conf_file="./config/duckdns.conf"
@@ -7,7 +11,6 @@ portforward_conf_file="./config/portforward.conf"
 duck_path="/etc/duckdns"
 duck_log="$duck_path/duckdns.log"
 duck_script="$duck_path/duckdns.sh"
-tmp_file="tmp_mv834u05u20rgj034523094ujf023845u"
 
 function uninstall {
 	echo removing current vpn-router configuration
@@ -53,12 +56,9 @@ function setup_wireguard {
 	echo "PreUp = sysctl -w net.ipv4.ip_forward=1" >> $generated_wgconf
 	echo >> $generated_wgconf
 
-	cat ./config/portforward.conf \
+	pf_conf=($(cat ./config/portforward.conf \
     | sed -e 's/ //g' \
-    | grep -Eo '^(tcp|udp):[0-9]*\:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\:[0-9]*' \
-    > $tmp_file 
-	readarray -t pf_conf < $tmp_file 
-	rm $tmp_file 
+    | grep -Eo '^(tcp|udp):[0-9]*\:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\:[0-9]*'))
 
 	#readarray -t pf_conf < ./config/portforward.conf
 	for pf in "${pf_conf[@]}"; do
@@ -127,12 +127,9 @@ function setup_duckdns {
 	echo "loading configuration and creating duck script"
 	
 	
-	cat $duckdns_conf_file \
+	duckdns_conf=($(cat $duckdns_conf_file \
 		| sed -e 's/ //g' \
-		| grep -Eo '^[0-9a-z]*\.duckdns\.org:[0-9a-fA-F\-]*' \
-		> $tmp_file 
-	readarray -t duckdns_conf < $tmp_file 
-	rm $tmp_file
+		| grep -Eo '^[0-9a-z]*\.duckdns\.org:[0-9a-fA-F\-]*'))
 
 	for duckhost in "${duckdns_conf[@]}"; do
 		IFS=':' read -ra duckhost_part <<< $duckhost
