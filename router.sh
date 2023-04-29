@@ -57,8 +57,9 @@ function setup_wireguard {
 	echo >> $generated_wgconf
 
 	pf_conf=($(cat ./config/portforward.conf \
-    | sed -e 's/ //g' \
-    | grep -Eo '^(tcp|udp):[0-9]*\:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\:[0-9]*'))
+             | sed -e 's/ //g' \
+             | sed -e 's/	//g' \
+             | grep -Eo '^(tcp|udp):[0-9]*\:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\:[0-9]*'))
 
 	#readarray -t pf_conf < ./config/portforward.conf
 	for pf in "${pf_conf[@]}"; do
@@ -129,6 +130,7 @@ function setup_duckdns {
 	
 	duckdns_conf=($(cat $duckdns_conf_file \
 		| sed -e 's/ //g' \
+                | sed -e 's/	//g' \
 		| grep -Eo '^[0-9a-z]*\.duckdns\.org:[0-9a-fA-F\-]*'))
 
 	for duckhost in "${duckdns_conf[@]}"; do
